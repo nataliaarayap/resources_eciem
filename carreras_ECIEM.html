@@ -70,7 +70,7 @@
   }
   .noise{position:absolute;inset:0;opacity:.03;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)'/%3E%3C/svg%3E");}
   .nav-row{max-width:1240px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;}
-  .logo-img{height:40px;width:auto;opacity:0.96;}
+  .logo-img{height:54px;width:auto;opacity:0.96;}
   .badge{
     background:var(--glass-2);border:1px solid var(--glass-border);color:#fff;font-family:'Barlow Condensed', sans-serif;
     font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-size:12px;padding:8px 16px;border-radius:999px;
@@ -166,10 +166,12 @@
   }
 
   /* ===== WORK CAROUSEL ===== */
+  .work-carousel-wrap{position:relative;}
   .work-scroll{
     display:flex;gap:16px;overflow-x:auto;padding:6px 6px 18px;scroll-snap-type:x mandatory;
-    scrollbar-width:none;-ms-overflow-style:none;margin-top:24px;
+    scrollbar-width:none;-ms-overflow-style:none;margin-top:24px;cursor:grab;
   }
+  .work-scroll.dragging{cursor:grabbing;scroll-snap-type:none;user-select:none;}
   .work-scroll::-webkit-scrollbar{display:none;}
   .work-item{
     scroll-snap-align:start;flex:0 0 auto;width:270px;padding:26px 24px;
@@ -181,6 +183,19 @@
   .work-item .w-title{font-size:16.5px;font-weight:700;color:var(--ink);line-height:1.3;}
   .work-item .w-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.5;font-weight:500;}
   .scroll-hint{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-dim);font-weight:600;margin-top:4px;}
+  .work-nav{
+    position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;
+    background:var(--bg-elev);border:1px solid var(--glass-border);color:#fff;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;z-index:3;box-shadow:0 8px 22px rgba(0,0,0,0.4);transition:background .2s ease, transform .2s ease;
+  }
+  .work-nav:hover{background:linear-gradient(135deg,var(--a1),var(--a2));color:#0a1220;}
+  .work-nav.prev{left:-8px;}
+  .work-nav.next{right:-8px;}
+  .work-nav .icon{width:18px;height:18px;}
+  .fade-edge{position:absolute;top:0;bottom:18px;width:70px;pointer-events:none;z-index:2;}
+  .fade-edge.left{left:0;background:linear-gradient(90deg,var(--bg),transparent);}
+  .fade-edge.right{right:0;background:linear-gradient(270deg,var(--bg),transparent);}
+  @media(max-width:640px){ .work-nav{display:none;} .fade-edge{display:none;} }
 
   /* ===== MALLA ===== */
   .malla-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;}
@@ -370,31 +385,41 @@
   </div>
 
   <div data-show="comercial">
-    <div class="work-scroll reveal">
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-coins"/></svg></span><div class="w-title">Entidades financieras</div><div class="w-desc">Banca, evaluación de riesgo e inversiones</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-building"/></svg></span><div class="w-title">Alta dirección de empresas</div><div class="w-desc">Gerencia general y liderazgo estratégico</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-target"/></svg></span><div class="w-title">Desarrollo de emprendimientos</div><div class="w-desc">Creación y dirección de tus propios negocios</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-trend"/></svg></span><div class="w-title">Marketing y estudios de mercado</div><div class="w-desc">Investigación de mercado y gestión de marca</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-users"/></svg></span><div class="w-title">Gestión de personas</div><div class="w-desc">Recursos Humanos y desarrollo organizacional</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-briefcase"/></svg></span><div class="w-title">Consultoría estratégica</div><div class="w-desc">Asesoría a organizaciones públicas y privadas</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-globe"/></svg></span><div class="w-title">Comercio internacional</div><div class="w-desc">Negocios y cadenas de valor globales</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-econ"/></svg></span><div class="w-title">Sector público</div><div class="w-desc">Planificación y gestión de instituciones del Estado</div></div>
+    <div class="work-carousel-wrap">
+      <div class="work-scroll reveal" id="work-scroll-comercial">
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-coins"/></svg></span><div class="w-title">Entidades financieras</div><div class="w-desc">Banca, evaluación de riesgo e inversiones</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-building"/></svg></span><div class="w-title">Alta dirección de empresas</div><div class="w-desc">Gerencia general y liderazgo estratégico</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-target"/></svg></span><div class="w-title">Desarrollo de emprendimientos</div><div class="w-desc">Creación y dirección de tus propios negocios</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-trend"/></svg></span><div class="w-title">Marketing y estudios de mercado</div><div class="w-desc">Investigación de mercado y gestión de marca</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-users"/></svg></span><div class="w-title">Gestión de personas</div><div class="w-desc">Recursos Humanos y desarrollo organizacional</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-briefcase"/></svg></span><div class="w-title">Consultoría estratégica</div><div class="w-desc">Asesoría a organizaciones públicas y privadas</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-globe"/></svg></span><div class="w-title">Comercio internacional</div><div class="w-desc">Negocios y cadenas de valor globales</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-econ"/></svg></span><div class="w-title">Sector público</div><div class="w-desc">Planificación y gestión de instituciones del Estado</div></div>
+      </div>
+      <div class="fade-edge left"></div><div class="fade-edge right"></div>
+      <button class="work-nav prev" onclick="scrollWork('work-scroll-comercial',-1)" aria-label="Anterior"><svg class="icon" style="transform:scaleX(-1)"><use href="#i-arrow"/></svg></button>
+      <button class="work-nav next" onclick="scrollWork('work-scroll-comercial',1)" aria-label="Siguiente"><svg class="icon"><use href="#i-arrow"/></svg></button>
     </div>
-    <div class="scroll-hint reveal"><svg class="icon" style="width:15px;height:15px"><use href="#i-arrow"/></svg>Desliza para ver más opciones</div>
+    <div class="scroll-hint reveal"><svg class="icon" style="width:15px;height:15px"><use href="#i-arrow"/></svg>Desliza o usa las flechas para ver más opciones</div>
   </div>
 
   <div data-show="iicg">
-    <div class="work-scroll reveal">
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-database"/></svg></span><div class="w-title">Inteligencia de negocios</div><div class="w-desc">Reportabilidad, dashboards y analítica de datos</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-cpu"/></svg></span><div class="w-title">Gestión de recursos tecnológicos</div><div class="w-desc">TI aplicada a la gestión organizacional</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-shield"/></svg></span><div class="w-title">Gestión de calidad</div><div class="w-desc">Estándares, procesos y mejora continua</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-target"/></svg></span><div class="w-title">Estrategia y control de gestión</div><div class="w-desc">Cumplimiento de objetivos organizacionales</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-briefcase"/></svg></span><div class="w-title">Auditoría de sistemas</div><div class="w-desc">Control interno y aseguramiento de la información</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-trend"/></svg></span><div class="w-title">Transformación digital</div><div class="w-desc">Consultoría e implementación de sistemas de gestión</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-coins"/></svg></span><div class="w-title">Banca y servicios financieros</div><div class="w-desc">Control de gestión en el sector financiero</div></div>
-      <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-econ"/></svg></span><div class="w-title">Sector público</div><div class="w-desc">Modernización de la gestión estatal</div></div>
+    <div class="work-carousel-wrap">
+      <div class="work-scroll reveal" id="work-scroll-iicg">
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-database"/></svg></span><div class="w-title">Inteligencia de negocios</div><div class="w-desc">Reportabilidad, dashboards y analítica de datos</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-cpu"/></svg></span><div class="w-title">Gestión de recursos tecnológicos</div><div class="w-desc">TI aplicada a la gestión organizacional</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-shield"/></svg></span><div class="w-title">Gestión de calidad</div><div class="w-desc">Estándares, procesos y mejora continua</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-target"/></svg></span><div class="w-title">Estrategia y control de gestión</div><div class="w-desc">Cumplimiento de objetivos organizacionales</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-briefcase"/></svg></span><div class="w-title">Auditoría de sistemas</div><div class="w-desc">Control interno y aseguramiento de la información</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-trend"/></svg></span><div class="w-title">Transformación digital</div><div class="w-desc">Consultoría e implementación de sistemas de gestión</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-coins"/></svg></span><div class="w-title">Banca y servicios financieros</div><div class="w-desc">Control de gestión en el sector financiero</div></div>
+        <div class="work-item glass"><span class="icon-wrap"><svg class="icon"><use href="#i-econ"/></svg></span><div class="w-title">Sector público</div><div class="w-desc">Modernización de la gestión estatal</div></div>
+      </div>
+      <div class="fade-edge left"></div><div class="fade-edge right"></div>
+      <button class="work-nav prev" onclick="scrollWork('work-scroll-iicg',-1)" aria-label="Anterior"><svg class="icon" style="transform:scaleX(-1)"><use href="#i-arrow"/></svg></button>
+      <button class="work-nav next" onclick="scrollWork('work-scroll-iicg',1)" aria-label="Siguiente"><svg class="icon"><use href="#i-arrow"/></svg></button>
     </div>
-    <div class="scroll-hint reveal"><svg class="icon" style="width:15px;height:15px"><use href="#i-arrow"/></svg>Desliza para ver más opciones</div>
+    <div class="scroll-hint reveal"><svg class="icon" style="width:15px;height:15px"><use href="#i-arrow"/></svg>Desliza o usa las flechas para ver más opciones</div>
   </div>
 </section>
 
@@ -443,7 +468,7 @@
       <div class="route-row flex-show" data-show="comercial">
         <div class="route-pill">Ingeniería Comercial · UCN</div>
         <svg class="icon route-arrow" style="width:18px;height:18px"><use href="#i-arrow"/></svg>
-        <div class="route-pill accent">Ingeniería en Finanzas · U. de Medellín</div>
+        <div class="route-pill accent">Ingeniería Financiera · U. de Medellín</div>
       </div>
       <div class="route-row flex-show" data-show="iicg">
         <div class="route-pill">IICG · UCN</div>
@@ -537,15 +562,15 @@
     <div class="contact-card glass active-c reveal" id="contact-comercial">
       <div class="contact-role">Jefatura de Carrera</div>
       <div class="contact-title">Ingeniería Comercial</div>
-      <a class="contact-mail" href="mailto:jc.icomercial.coqbo@ucn.cl">
-        <span class="icon-wrap"><svg class="icon"><use href="#i-mail"/></svg></span>jc.icomercial.coqbo@ucn.cl
+      <a class="contact-mail" href="mailto:jc.icomercial.cqbo@ucn.cl">
+        <span class="icon-wrap"><svg class="icon"><use href="#i-mail"/></svg></span>jc.icomercial.cqbo@ucn.cl
       </a>
     </div>
     <div class="contact-card glass reveal" id="contact-iicg">
       <div class="contact-role">Jefatura de Carrera</div>
       <div class="contact-title">Ingeniería en Información y Control de Gestión</div>
-      <a class="contact-mail" href="mailto:jc.iicg.coqbo@ucn.cl">
-        <span class="icon-wrap"><svg class="icon"><use href="#i-mail"/></svg></span>jc.iicg.coqbo@ucn.cl
+      <a class="contact-mail" href="mailto:jc.iicg.cqbo@ucn.cl">
+        <span class="icon-wrap"><svg class="icon"><use href="#i-mail"/></svg></span>jc.iicg.cqbo@ucn.cl
       </a>
     </div>
   </div>
@@ -568,6 +593,28 @@ function setMalla(c){
   document.getElementById('malla-img-comercial').style.display = c==='comercial' ? 'block':'none';
   document.getElementById('malla-img-iicg').style.display = c==='iicg' ? 'block':'none';
 }
+function scrollWork(id, dir){
+  const el = document.getElementById(id);
+  const cardWidth = el.querySelector('.work-item').getBoundingClientRect().width + 16;
+  el.scrollBy({left: dir*cardWidth*2, behavior:'smooth'});
+}
+// drag-to-scroll with mouse for carousels
+document.querySelectorAll('.work-scroll').forEach(el=>{
+  let isDown=false, startX=0, startScroll=0, moved=false;
+  el.addEventListener('mousedown', (e)=>{
+    isDown=true; moved=false; el.classList.add('dragging');
+    startX = e.pageX; startScroll = el.scrollLeft;
+  });
+  window.addEventListener('mouseup', ()=>{ isDown=false; el.classList.remove('dragging'); });
+  window.addEventListener('mousemove', (e)=>{
+    if(!isDown) return;
+    e.preventDefault();
+    const dx = e.pageX - startX;
+    if(Math.abs(dx)>4) moved=true;
+    el.scrollLeft = startScroll - dx;
+  });
+  el.addEventListener('click', (e)=>{ if(moved){ e.preventDefault(); e.stopPropagation(); } }, true);
+});
 function openLightbox(src){
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox').classList.add('open');
