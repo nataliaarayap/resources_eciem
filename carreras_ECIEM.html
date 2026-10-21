@@ -315,6 +315,53 @@
     *,*::before,*::after{animation:none!important;transition:none!important;}
     .reveal{opacity:1;transform:none;}
   }
+
+  /* Tema claro para proyección: superficies opacas y texto de alto contraste. */
+  :root{
+    color-scheme:light;
+    --bg:#ffffff;--bg-elev:#f2f5f9;--bg-elev-2:#e8eef5;
+    --glass:#f5f7fa;--glass-2:#e8eef5;--glass-border:#b6c3d2;
+    --ink:#15283f;--ink-soft:#344b63;--ink-dim:#41576e;--line:#c6d0dc;
+    --gold:#835000;
+    --c-1:#91400f;--c-2:#a64b16;--c-3:#71330e;
+    --b-1:#125984;--b-2:#176591;--b-3:#10476b;
+  }
+  .hero{background:#fff;}
+  .hero-glow{background:linear-gradient(150deg,#fff 35%,#edf3f9);inset:0;}
+  .noise{display:none;}
+  .glass{backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 3px 14px rgba(21,40,63,.06);}
+  .logo-img{background:#15283f;padding:8px 12px;border-radius:12px;box-sizing:content-box;opacity:1;}
+  .badge{background:#e8eef5;color:var(--ink);border-color:#a9bacb;}
+  .grad-text,.stat-num,.min-banner .mb-num{background:none;color:var(--a1);-webkit-text-fill-color:currentColor;}
+  .selector{background:#eef2f7;border-color:#a9bacb;backdrop-filter:none;}
+  .sel-thumb{background:var(--a1);box-shadow:none;}
+  .sel-btn.on{color:#fff;}
+  .sel-btn:not(.on){color:var(--ink);background:#fff;box-shadow:inset 0 0 0 1px #8da2b8;}
+  .ticker-wrap{background:#edf2f7;}
+  .weight-dot{outline:1px solid #52677d;outline-offset:1px;}
+  .b-lede::after{display:none;}
+  .b-cta .cta-arrow,.concept-card .c-icon{background:#e1eaf3;color:var(--a1);}
+  .b-cta .cta-arrow .icon{stroke:var(--a1);}
+  .chip:hover,.malla-tab.on,.sim-btn{background:var(--a1);color:#fff;border-color:var(--a1);}
+  .sim-btn .icon{stroke:#fff!important;}
+  .sim-btn{box-shadow:0 3px 10px rgba(21,40,63,.12);font-size:18px;}
+  .sim-btn:hover{background:var(--a3);box-shadow:0 4px 12px rgba(21,40,63,.18);}
+  .malla-tab.on{box-shadow:none;}
+  .work-nav{background:#fff;color:var(--ink);border-color:#8da2b8;box-shadow:0 3px 10px rgba(21,40,63,.12);}
+  .work-nav:hover{background:var(--a1);color:#fff;}
+  .concept-card h3,.adm-card h4,.contact-title,.adm-fact .f-value{color:var(--ink);}
+  .adm-note{background:#fff5dd;border-color:#be8e30;color:#573d0c;}
+  .adm-note .icon{color:#765000;}
+  .min-banner{background:#edf3f9;}
+  .adn-card{background:#f0f5fa;}
+  .adm-card.is-active,.contact-card.active-c{border-width:2px;}
+  footer{background:#edf2f7;}
+  a:focus-visible,button:focus-visible{outline-color:#6b4400;}
+  .hero-sub,.b-lede p,.concept-card p,.adn-copy>p{font-size:18px;}
+  .adm-detail,.adm-fact .f-label,.weight-legend,.malla-hint,.scroll-hint{font-size:16px;}
+  .eyebrow,.contact-role,.meta-row .label{font-size:15px;}
+  @media(max-width:760px){.logo-img{max-width:calc(100% - 24px);}}
+
 </style>
 </head>
 <body data-career="comercial">
@@ -504,8 +551,8 @@
     <div class="concept-card glass reveal">
       <div class="c-icon"><svg class="icon"><use href="#i-cap"/></svg></div>
       <h3>Articulación con Magíster</h3>
-      <p><strong style="color:#fff">¿Qué es una articulación?</strong> Es la posibilidad de cursar, durante el último año de tu carrera, asignaturas que corresponden al primer año de un programa de magíster, avanzando en tu postgrado en paralelo con tu pregrado.</p>
-      <p>Ambas carreras —Ingeniería Comercial e Ingeniería en Información y Control de Gestión— están articuladas con el <strong style="color:#fff">Magíster en Ciencias Empresariales</strong>, un postgrado profesional orientado a fortalecer competencias directivas y de gestión estratégica.</p>
+      <p><strong style="color:var(--ink)">¿Qué es una articulación?</strong> Es la posibilidad de cursar, durante el último año de tu carrera, asignaturas que corresponden al primer año de un programa de magíster, avanzando en tu postgrado en paralelo con tu pregrado.</p>
+      <p>Ambas carreras —Ingeniería Comercial e Ingeniería en Información y Control de Gestión— están articuladas con el <strong style="color:var(--ink)">Magíster en Ciencias Empresariales</strong>, un postgrado profesional orientado a fortalecer competencias directivas y de gestión estratégica.</p>
       <div class="route-row">
         <div class="route-pill">Último año de pregrado</div>
         <svg class="icon route-arrow" style="width:18px;height:18px"><use href="#i-arrow"/></svg>
@@ -515,8 +562,8 @@
     <div class="concept-card glass reveal">
       <div class="c-icon"><svg class="icon"><use href="#i-globe"/></svg></div>
       <h3>Doble titulación internacional</h3>
-      <p><strong style="color:#fff">¿Qué es una doble titulación?</strong> Es un convenio entre la UCN y una universidad extranjera que te permite obtener dos títulos profesionales, uno de cada institución, cursando parte de tu formación en el país socio.</p>
-      <p>El convenio vigente es con la <strong style="color:#fff">Universidad de Medellín, Colombia</strong>:</p>
+      <p><strong style="color:var(--ink)">¿Qué es una doble titulación?</strong> Es un convenio entre la UCN y una universidad extranjera que te permite obtener dos títulos profesionales, uno de cada institución, cursando parte de tu formación en el país socio.</p>
+      <p>El convenio vigente es con la <strong style="color:var(--ink)">Universidad de Medellín, Colombia</strong>:</p>
       <div class="route-row flex-show" data-show="comercial">
         <div class="route-pill">Ingeniería Comercial · UCN</div>
         <svg class="icon route-arrow" style="width:18px;height:18px"><use href="#i-arrow"/></svg>
